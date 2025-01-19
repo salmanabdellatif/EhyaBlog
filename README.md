@@ -6,8 +6,8 @@
 
 The project consists of two main parts:
 
-- **Frontend**: Built with **React** and styled using **Tailwind CSS**.
-- **Backend**: Built with **Node.js** and **Express.js**, with MongoDB for data storage.
+*   **Frontend**: Built with **React** and styled using **Tailwind CSS**.
+*   **Backend**: Built with **Node.js** and **Express.js**, with MongoDB for data storage.
 
 ---
 
@@ -16,24 +16,25 @@ The project consists of two main parts:
 The frontend is located in the `frontend` folder and provides the user interface for the blog.
 
 ### **Technologies Used**:
-- **React.js**
-- **React Router DOM**
-- **Tailwind CSS**
-- **React Query**
-- **Redux (for state management)**
+
+* React.js
+* React Router DOM
+* Tailwind CSS
+* React Query
+* Redux (for state management)
 
 ### **Installation**
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/salmanabdellatif/EhyaBlog.git
+git clone [https://github.com/salmanabdellatif/EhyaBlog.git](https://github.com/salmanabdellatif/EhyaBlog.git)
 cd EhyaBlog/frontend
 ```
 
 2. Install the required dependencies:
 npm install
-# or
+- or
 yarn install
 
 
@@ -66,7 +67,7 @@ cd EhyaBlog/backend
 
 2. Install the required dependencies:
 npm install
-# or
+- or
 yarn install
 
 
