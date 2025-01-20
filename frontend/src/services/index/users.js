@@ -1,8 +1,9 @@
 import axios from 'axios'
+import {apiUrl} from './constats'
 
 export const signup = async ({ name, email, password }) => {
   try {
-    const { data } = await axios.post('/api/users/register', {
+    const { data } = await axios.post(`${apiUrl}/api/users/register`, {
       name,
       email,
       password,
@@ -15,7 +16,7 @@ export const signup = async ({ name, email, password }) => {
 }
 export const login = async ({ email, password }) => {
   try {
-    const { data } = await axios.post('/api/users/login', {
+    const { data } = await axios.post(`${apiUrl}/api/users/login`, {
       email,
       password,
     })
@@ -33,7 +34,7 @@ export const getUserProfile = async ({ token }) => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.get('/api/users/user', config)
+    const { data } = await axios.get(`${apiUrl}/api/users/user`, config)
     return data
   } catch (error) {
     if (error.response && error.response.data.message) throw new Error(error.response.data.message)
@@ -48,7 +49,7 @@ export const updateProfile = async ({ token, userData, userId }) => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.put(`/api/users/updateUser/${userId}`, userData, config)
+    const { data } = await axios.put(`${apiUrl}/api/users/updateUser/${userId}`, userData, config)
     return data
   } catch (error) {
     if (error.response && error.response.data.message) throw new Error(error.response.data.message)
@@ -64,7 +65,7 @@ export const updateProfilePicture = async ({ token, formData }) => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.put(`/api/users/updateUserAvatar`, formData, config)
+    const { data } = await axios.put(`${apiUrl}/api/users/updateUserAvatar`, formData, config)
     return data
   } catch (error) {
     if (error.response && error.response.data.message) throw new Error(error.response.data.message)

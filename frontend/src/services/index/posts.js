@@ -1,8 +1,9 @@
 import axios from 'axios'
+import {apiUrl} from './constats'
 
 export const getAllPosts = async () => {
   try {
-    const { data } = await axios.get('/api/posts')
+    const { data } = await axios.get(`${apiUrl}/api/posts/`)
 
     return data
   } catch (error) {
@@ -13,7 +14,7 @@ export const getAllPosts = async () => {
 
 export const getSinglePost = async slug => {
   try {
-    const { data } = await axios.get(`/api/posts/${slug}`)
+    const { data } = await axios.get(`${apiUrl}/api/posts/${slug}`)
 
     return data
   } catch (error) {

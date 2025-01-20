@@ -1,0 +1,1 @@
+export const apiUrl = 'https://ehya-blog-server.vercel.app'
