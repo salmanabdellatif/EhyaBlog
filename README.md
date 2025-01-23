@@ -2,6 +2,14 @@
 
 **EhyaBlog** is a full-stack blog website project built with React for the frontend and Node.js/Express for the backend. This project provides a platform for users to read and share articles, register, log in, and manage their profiles. The backend handles user authentication, profile management, and article CRUD operations.
 
+
+## Figma Design
+
+You can view the Figma design of the application here:
+
+[Figma Link](https://www.figma.com/design/omEnaqbUfdKtQH2WmKqJ4z/blog-design?node-id=0-1&p=f&t=wUyAu85LbGzamEHl-0)
+
+
 ## Live Demo
 
 You can view the live demo of the application here:
