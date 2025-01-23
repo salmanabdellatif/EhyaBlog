@@ -64,7 +64,7 @@ const Footer = () => {
             <FaHeart className='w-6 h-6' />
           </div>
           <p className='text-center italic font-bold text-dark-light'>
-            Copyright © 2019. Moonfo with love.
+            Copyright © 2024 - 2025. salman_dev.
           </p>
         </div>
       </div>
