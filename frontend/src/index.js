@@ -1,15 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import './index.css'
-import App from './App'
-import { Provider } from 'react-redux'
-import store from './store'
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import axios from 'axios';
+import "./index.css";
+import App from "./App";
+import { Provider } from "react-redux";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-const queryClient = new QueryClient()
+import store from "./store";
+import { stables } from "./constants";
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+axios.defaults.baseURL = stables.API_BASE_URL;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
@@ -18,4 +29,4 @@ root.render(
       </QueryClientProvider>
     </Provider>
   </BrowserRouter>
-)
+);

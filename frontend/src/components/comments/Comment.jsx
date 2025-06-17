@@ -1,78 +1,100 @@
-import React from 'react'
-import { FiMessageSquare, FiEdit2, FiTrash } from 'react-icons/fi'
-import { images } from '../../constants'
-import CommentForm from './CommentForm'
+import React from "react";
+import { FiMessageSquare, FiEdit2, FiTrash } from "react-icons/fi";
+
+import { images, stables } from "../../constants";
+import CommentForm from "./CommentForm";
 
 const Comment = ({
-  commentData,
-  loggedInUserId,
+  comment,
+  logginedUserId,
   affectedComment,
   setAffectedComment,
   addComment,
-  editComment,
+  parentId = null,
+  updateComment,
   deleteComment,
   replies,
 }) => {
-  const isUserLoggedIn = Boolean(loggedInUserId)
-  const isCommentBelongsToUser = loggedInUserId === commentData.user._id
+  const isUserLoggined = Boolean(logginedUserId);
+  const commentBelongsToUser = logginedUserId === comment.user._id;
   const isReplying =
     affectedComment &&
-    affectedComment.type === 'replying' &&
-    affectedComment._id === commentData._id
+    affectedComment.type === "replying" &&
+    affectedComment._id === comment._id;
   const isEditing =
     affectedComment &&
-    affectedComment.type === 'editing' &&
-    affectedComment._id === commentData._id
+    affectedComment.type === "editing" &&
+    affectedComment._id === comment._id;
+  const repliedCommentId = parentId ? parentId : comment._id;
+  const replyOnUserId = comment.user._id;
 
-  const parentCommentId = commentData._id || null
-  const replyOnUserId = commentData.user._id || null
   return (
-    <div className='flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg'>
+    <div
+      className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg"
+      id={`comment-${comment?._id}`}
+    >
       <img
-        src={images.PostProfile}
-        alt='avatar'
-        className='w-9 h-9 object-cover rounded-full'
+        src={
+          comment?.user?.avatar
+            ? stables.UPLOAD_FOLDER_BASE_URL + comment.user.avatar
+            : images.userImage
+        }
+        alt="user profile"
+        className="w-9 h-9 object-cover rounded-full"
       />
-      <div className='flex flex-col flex-1'>
-        <h5 className='font-bold text-dark-hard text-xs'>
-          {commentData.user.name}
+      <div className="flex-1 flex flex-col">
+        <h5 className="font-bold text-dark-hard text-xs lg:text-sm">
+          {comment.user.name}
         </h5>
-        <span className='text-dark-light text-xs font-light mt-2'>
-          {new Date(commentData.createdAt).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
+        <span className="text-xs text-dark-light">
+          {new Date(comment.createdAt).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
           })}
         </span>
-        <p className='text-dark-light font-opensans mt-[10px]'>
-          {commentData.desc}
-        </p>
-        <div className='flex items-center text-dark-light font-roboto my-3 space-x-4'>
-          {isUserLoggedIn && (
+        {!isEditing && (
+          <p className="font-opensans mt-[10px] text-dark-light">
+            {comment.desc}
+          </p>
+        )}
+        {isEditing && (
+          <CommentForm
+            btnLabel="Update"
+            formSubmitHanlder={(value) => updateComment(value, comment._id)}
+            formCancelHandler={() => setAffectedComment(null)}
+            initialText={comment.desc}
+          />
+        )}
+        <div className="flex items-center gap-x-3 text-dark-light font-roboto text-sm mt-3 mb-3">
+          {isUserLoggined && (
             <button
-              className='flex items-center space-x-1'
+              className="flex items-center space-x-2"
               onClick={() =>
-                setAffectedComment({ type: 'replying', _id: commentData._id })
-              }>
-              <FiMessageSquare className='w-4 h-auto' />
-              <span>Replay</span>
+                setAffectedComment({ type: "replying", _id: comment._id })
+              }
+            >
+              <FiMessageSquare className="w-4 h-auto" />
+              <span>Reply</span>
             </button>
           )}
-          {isCommentBelongsToUser && (
+          {commentBelongsToUser && (
             <>
               <button
-                className='flex items-center space-x-1'
+                className="flex items-center space-x-2"
                 onClick={() =>
-                  setAffectedComment({ type: 'editing', _id: commentData._id })
-                }>
-                <FiEdit2 className='w-4 h-auto' />
+                  setAffectedComment({ type: "editing", _id: comment._id })
+                }
+              >
+                <FiEdit2 className="w-4 h-auto" />
                 <span>Edit</span>
               </button>
               <button
-                className='flex items-center space-x-1'
-                onClick={() => deleteComment(commentData._id)}>
-                <FiTrash className='w-4 h-auto' />
+                className="flex items-center space-x-2"
+                onClick={() => deleteComment(comment._id)}
+              >
+                <FiTrash className="w-4 h-auto" />
                 <span>Delete</span>
               </button>
             </>
@@ -80,41 +102,34 @@ const Comment = ({
         </div>
         {isReplying && (
           <CommentForm
-            btnLabel='Reply'
-            formSubmitHandler={value =>
-              addComment(value, parentCommentId, replyOnUserId)
+            btnLabel="Reply"
+            formSubmitHanlder={(value) =>
+              addComment(value, repliedCommentId, replyOnUserId)
             }
             formCancelHandler={() => setAffectedComment(null)}
           />
         )}
-        {isEditing && (
-          <CommentForm
-            btnLabel='Update'
-            formSubmitHandler={value => editComment(value, commentData._id)}
-            formCancelHandler={() => setAffectedComment(null)}
-            initialText={commentData.desc}
-          />
-        )}
         {replies.length > 0 && (
           <div>
-            {replies.map(reply => (
+            {replies.map((reply) => (
               <Comment
                 key={reply._id}
-                commentData={reply}
                 addComment={addComment}
                 affectedComment={affectedComment}
                 setAffectedComment={setAffectedComment}
-                editComment={editComment}
+                comment={reply}
                 deleteComment={deleteComment}
-                loggedInUserId={loggedInUserId}
+                logginedUserId={logginedUserId}
                 replies={[]}
+                updateComment={updateComment}
+                parentId={comment._id}
               />
             ))}
           </div>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Comment
+export default Comment;
