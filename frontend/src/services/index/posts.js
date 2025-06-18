@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
 export const getAllPosts = async (searchKeyword = "", page = 1, limit = 10, categories = []) => {
   try {
     const { data, headers } = await axios.get(
-      `/api/posts?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}&categories=${categories.join(",")}`
+      `${API_URL}/api/posts?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}&categories=${categories.join(",")}`
     );
     return { data, headers };
   } catch (error) {
@@ -15,7 +17,7 @@ export const getAllPosts = async (searchKeyword = "", page = 1, limit = 10, cate
 
 export const getSinglePost = async ({ slug }) => {
   try {
-    const { data } = await axios.get(`/api/posts/${slug}`);
+    const { data } = await axios.get(`${API_URL}/api/posts/${slug}`);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -32,7 +34,7 @@ export const deletePost = async ({ slug, token }) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/posts/${slug}`, config);
+    const { data } = await axios.delete(`${API_URL}/api/posts/${slug}`, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -49,7 +51,7 @@ export const updatePost = async ({ updatedData, slug, token }) => {
       },
     };
 
-    const { data } = await axios.put(`/api/posts/${slug}`, updatedData, config);
+    const { data } = await axios.put(`${API_URL}/api/posts/${slug}`, updatedData, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -66,7 +68,7 @@ export const createPost = async ({ token }) => {
       },
     };
 
-    const { data } = await axios.post(`/api/posts`, {}, config);
+    const { data } = await axios.post(`${API_URL}/api/posts`, {}, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message)

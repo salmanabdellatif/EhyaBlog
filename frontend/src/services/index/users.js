@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
 export const signup = async ({ name, email, password }) => {
   try {
-    const { data } = await axios.post("/api/users/register", {
+    const { data } = await axios.post(`${API_URL}/api/users/register`, {
       name,
       email,
       password,
@@ -17,7 +19,7 @@ export const signup = async ({ name, email, password }) => {
 
 export const login = async ({ email, password }) => {
   try {
-    const { data } = await axios.post("/api/users/login", {
+    const { data } = await axios.post(`${API_URL}/api/users/login`, {
       email,
       password,
     });
@@ -37,7 +39,7 @@ export const getUserProfile = async ({ token }) => {
       },
     };
 
-    const { data } = await axios.get("/api/users/profile", config);
+    const { data } = await axios.get(`${API_URL}/api/users/profile`, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -55,7 +57,7 @@ export const updateProfile = async ({ token, userData, userId }) => {
     };
 
     const { data } = await axios.put(
-      `/api/users/updateProfile/${userId}`,
+      `${API_URL}/api/users/updateProfile/${userId}`,
       userData,
       config
     );
@@ -77,7 +79,7 @@ export const updateProfilePicture = async ({ token, formData }) => {
     };
 
     const { data } = await axios.put(
-      "/api/users/updateProfilePicture",
+      `${API_URL}/api/users/updateProfilePicture`,
       formData,
       config
     );
@@ -103,7 +105,7 @@ export const getAllUsers = async (
     };
 
     const { data, headers } = await axios.get(
-      `/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
+      `${API_URL}/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
       config
     );
     return { data, headers };
@@ -122,7 +124,7 @@ export const deleteUser = async ({ slug, token }) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/users/${slug}`, config);
+    const { data } = await axios.delete(`${API_URL}/api/users/${slug}`, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message)
