@@ -19,8 +19,6 @@ const Articles = () => {
     },
   });
 
-  console.log("data from server:", data);
-
   return (
     <section className="flex flex-col container mx-auto px-5 py-10">
       <div className=" flex flex-wrap md:gap-x-5 gap-y-5 pb-10">
